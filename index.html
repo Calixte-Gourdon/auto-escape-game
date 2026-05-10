@@ -7,779 +7,364 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #05060f;
-    --surface: #0d0f20;
-    --panel: #111428;
-    --accent: #00e5ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --danger: #ef4444;
-    --text: #e2e8f0;
-    --muted: #64748b;
+    --bg: #05060f; --surface: #0d0f20; --panel: #111428;
+    --accent: #00e5ff; --accent2: #7c3aed; --accent3: #10b981;
+    --danger: #ef4444; --text: #e2e8f0; --muted: #64748b;
     --border: rgba(0,229,255,0.18);
   }
-
   body {
     font-family: 'Rajdhani', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; display: flex; align-items: center;
+    justify-content: center; overflow-x: hidden;
   }
-
-  /* Animated grid background */
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none; z-index: 0;
   }
-
-  /* Scanline overlay */
   body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    pointer-events: none; z-index: 0;
   }
-
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 760px;
-    padding: 20px;
-  }
-
-  /* ── SCREEN ── */
-  .screen {
-    display: none;
-    animation: fadeIn 0.6s ease forwards;
-  }
+  .wrapper { position: relative; z-index: 1; width: 100%; max-width: 760px; padding: 20px; }
+  .screen { display: none; animation: fadeIn 0.6s ease forwards; }
   .screen.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── INTRO ── */
+  /* INTRO */
   .intro-badge {
-    display: inline-block;
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 4px 14px;
-    border-radius: 2px;
-    margin-bottom: 24px;
-    animation: pulse 2s ease infinite;
+    display: inline-block; font-family: 'Orbitron', monospace; font-size: 10px;
+    letter-spacing: 3px; color: var(--accent); border: 1px solid var(--accent);
+    padding: 4px 14px; border-radius: 2px; margin-bottom: 24px; animation: pulse 2s ease infinite;
   }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
   .intro-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(32px, 6vw, 58px);
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 10px;
+    font-family: 'Orbitron', monospace; font-size: clamp(32px, 6vw, 58px); font-weight: 900;
+    line-height: 1; margin-bottom: 10px;
     background: linear-gradient(135deg, #00e5ff 0%, #7c3aed 60%, #00e5ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-
-  .intro-sub {
-    font-size: 18px;
-    color: var(--muted);
-    margin-bottom: 36px;
-    letter-spacing: 1px;
-  }
-
+  .intro-sub { font-size: 18px; color: var(--muted); margin-bottom: 36px; letter-spacing: 1px; }
   .intro-story {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 4px;
-    padding: 20px 24px;
-    font-size: 16px;
-    line-height: 1.7;
-    color: #94a3b8;
-    margin-bottom: 36px;
+    background: var(--panel); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 4px;
+    padding: 20px 24px; font-size: 16px; line-height: 1.7; color: #94a3b8; margin-bottom: 36px;
   }
-
   .intro-story strong { color: var(--accent); }
 
-  /* ── PROGRESS BAR ── */
-  .progress-wrap {
-    margin-bottom: 28px;
+  /* PHASE BANNER */
+  .phase-banner {
+    display: flex; align-items: center; gap: 12px; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 4px; padding: 11px 16px;
+    margin-bottom: 18px; font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 2px;
   }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; animation: pulse 1.5s ease infinite; }
+  .phase-1 .phase-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .phase-2 .phase-dot { background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
+  .phase-1 .phase-label { color: var(--accent); }
+  .phase-2 .phase-label { color: #a78bfa; }
 
-  .progress-labels {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  .progress-track {
-    height: 4px;
-    background: var(--surface);
-    border-radius: 2px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    border-radius: 2px;
-    transition: width 0.6s cubic-bezier(.4,0,.2,1);
-    position: relative;
-  }
-
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: -2px;
-    width: 8px;
-    height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent);
-  }
-
-  .step-dots {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    transition: all 0.3s;
-  }
+  /* PROGRESS */
+  .progress-wrap { margin-bottom: 24px; }
+  .progress-labels { display: flex; justify-content: space-between; font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
+  .progress-track { height: 4px; background: var(--surface); border-radius: 2px; overflow: visible; position: relative; }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.6s cubic-bezier(.4,0,.2,1), background 0.5s; position: relative; }
+  .progress-fill.p1 { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+  .progress-fill.p2 { background: linear-gradient(90deg, var(--accent2), #a78bfa); }
+  .progress-fill::after { content: ''; position: absolute; right: -4px; top: -4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .step-dots { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; align-items: center; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); transition: all 0.3s; }
   .dot.done { background: var(--accent3); border-color: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
   .dot.current { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 6px var(--accent); animation: pulse 1.5s ease infinite; }
+  .dot.done-p2 { background: #a78bfa; border-color: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+  .dot.current-p2 { background: #a78bfa; border-color: #a78bfa; box-shadow: 0 0 6px #a78bfa; animation: pulse 1.5s ease infinite; }
+  .dot.sep { width: 2px; height: 8px; border-radius: 1px; background: var(--muted); border: none; opacity: 0.4; }
 
-  /* ── QUESTION CARD ── */
-  .q-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 32px;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-  }
+  /* QUESTION CARD */
+  .q-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 32px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .q-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .q-card.p1::before { background: linear-gradient(90deg, var(--accent2), var(--accent), transparent); }
+  .q-card.p2::before { background: linear-gradient(90deg, #4c1d95, #a78bfa, transparent); }
+  .q-number { font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 3px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .q-number.p1 { color: var(--accent); } .q-number.p2 { color: #a78bfa; }
+  .q-number::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .q-icon { font-size: 32px; margin-bottom: 14px; }
+  .q-text { font-size: 22px; font-weight: 600; line-height: 1.4; color: var(--text); margin-bottom: 28px; }
 
-  .q-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent2), var(--accent), transparent);
-  }
-
-  .q-number {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .q-number::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .q-icon {
-    font-size: 32px;
-    margin-bottom: 14px;
-  }
-
-  .q-text {
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--text);
-    margin-bottom: 28px;
-  }
-
-  /* ── OPTIONS ── */
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
+  /* OPTIONS */
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .opt-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 18px;
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    letter-spacing: 0.3px;
-    position: relative;
-    overflow: hidden;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 14px 18px; color: var(--text); font-family: 'Rajdhani', sans-serif;
+    font-size: 16px; font-weight: 600; cursor: pointer; text-align: left;
+    transition: all 0.2s; display: flex; align-items: center; gap: 12px; letter-spacing: 0.3px;
   }
-
-  .opt-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .opt-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateX(4px);
-  }
-
-  .opt-letter {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    width: 24px;
-    height: 24px;
-    border-radius: 3px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-  }
-
-  .opt-btn:hover:not(:disabled) .opt-letter {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-  }
-
-  .opt-btn.correct {
-    border-color: var(--accent3);
-    background: rgba(16,185,129,0.1);
-    color: var(--accent3);
-    pointer-events: none;
-    animation: correctPop 0.4s ease;
-  }
-
-  .opt-btn.correct .opt-letter {
-    background: var(--accent3);
-    color: var(--bg);
-    border-color: var(--accent3);
-  }
-
-  .opt-btn.wrong {
-    border-color: var(--danger);
-    background: rgba(239,68,68,0.1);
-    color: var(--danger);
-    pointer-events: none;
-    animation: shake 0.4s ease;
-  }
-
-  .opt-btn.wrong .opt-letter {
-    background: var(--danger);
-    color: white;
-    border-color: var(--danger);
-  }
-
+  .opt-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); transform: translateX(4px); }
+  .opt-btn:hover:not(:disabled) .opt-letter { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .opt-letter { font-family: 'Orbitron', monospace; font-size: 11px; width: 24px; height: 24px; border-radius: 3px; background: var(--panel); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .opt-btn.correct { border-color: var(--accent3); background: rgba(16,185,129,0.1); color: var(--accent3); pointer-events: none; animation: correctPop 0.4s ease; }
+  .opt-btn.correct .opt-letter { background: var(--accent3); color: var(--bg); border-color: var(--accent3); }
+  .opt-btn.wrong { border-color: var(--danger); background: rgba(239,68,68,0.1); color: var(--danger); pointer-events: none; animation: shake 0.4s ease; }
+  .opt-btn.wrong .opt-letter { background: var(--danger); color: white; border-color: var(--danger); }
   .opt-btn:disabled { cursor: default; }
+  @keyframes correctPop { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 
-  @keyframes correctPop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-  }
+  /* FEEDBACK */
+  .feedback { border-radius: 6px; padding: 16px 20px; font-size: 16px; line-height: 1.5; margin-top: 16px; display: none; animation: fadeIn 0.4s ease; }
+  .feedback.correct-fb { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: var(--accent3); display: block; }
+  .feedback.wrong-fb { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; display: block; }
 
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-6px); }
-    40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-  }
-
-  /* ── FEEDBACK ── */
-  .feedback {
-    border-radius: 6px;
-    padding: 16px 20px;
-    font-size: 16px;
-    line-height: 1.5;
-    margin-top: 16px;
-    display: none;
-    animation: fadeIn 0.4s ease;
-  }
-
-  .feedback.correct-fb {
-    background: rgba(16,185,129,0.1);
-    border: 1px solid rgba(16,185,129,0.3);
-    color: var(--accent3);
-    display: block;
-  }
-
-  .feedback.wrong-fb {
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.3);
-    color: #fca5a5;
-    display: block;
-  }
-
-  .feedback-icon { font-size: 20px; margin-right: 8px; }
-
-  /* ── NEXT BUTTON ── */
+  /* NEXT BUTTON */
   .next-btn {
-    display: none;
-    margin-top: 20px;
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    padding: 14px 32px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
+    display: none; margin-top: 20px; background: transparent;
+    border: 1px solid var(--accent); color: var(--accent);
+    font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 3px;
+    padding: 14px 32px; cursor: pointer; border-radius: 4px; transition: all 0.3s;
+    position: relative; overflow: hidden;
   }
-
-  .next-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-  }
-
+  .next-btn::before { content: ''; position: absolute; inset: 0; background: var(--accent); transform: translateX(-100%); transition: transform 0.3s ease; }
   .next-btn:hover::before { transform: translateX(0); }
   .next-btn:hover { color: var(--bg); }
   .next-btn span { position: relative; z-index: 1; }
-
   .next-btn.visible { display: inline-flex; align-items: center; gap: 10px; }
 
-  /* ── WRONG ATTEMPTS ── */
-  .attempts {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 20px;
+  /* PHASE TRANSITION */
+  .phase-transition {
+    background: var(--panel); border: 1px solid rgba(167,139,250,0.3);
+    border-radius: 8px; padding: 48px 32px; text-align: center;
+    position: relative; overflow: hidden;
   }
+  .phase-transition::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #a78bfa, transparent); }
+  .phase-transition-icon { font-size: 56px; margin-bottom: 20px; }
+  .phase-transition-title { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: #a78bfa; margin-bottom: 10px; letter-spacing: 2px; }
+  .phase-transition-sub { font-size: 16px; color: #94a3b8; margin-bottom: 32px; line-height: 1.7; }
 
-  .attempt-pip {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--accent3);
-    box-shadow: 0 0 6px var(--accent3);
-    transition: all 0.3s;
-  }
-
+  /* HEADER */
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .logo { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+  .lives-row { display: flex; align-items: center; gap: 6px; font-family: 'Orbitron', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .attempt-pip { width: 10px; height: 10px; border-radius: 50%; background: var(--accent3); box-shadow: 0 0 6px var(--accent3); transition: all 0.3s; display: inline-block; }
   .attempt-pip.lost { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
 
-  /* ── WIN SCREEN ── */
-  .win-title {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--accent3), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 12px;
-    animation: fadeIn 0.8s ease;
-  }
-
-  .win-sub {
-    font-size: 18px;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-
-  .win-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
-  .stat-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .stat-val {
-    font-family: 'Orbitron', monospace;
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .certificate {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--accent3);
-    border-radius: 6px;
-    padding: 28px 32px;
-    text-align: center;
-    margin-bottom: 28px;
-  }
-
-  .cert-badge {
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--accent3);
-    margin-bottom: 8px;
-  }
-
-  .cert-text {
-    font-size: 17px;
-    color: #94a3b8;
-    line-height: 1.6;
-  }
-
-  .cert-text strong { color: var(--text); }
-
-  /* ── RESTART ── */
-  .restart-btn {
-    background: transparent;
-    border: 1px solid var(--muted);
-    color: var(--muted);
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    padding: 12px 24px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-  }
-
+  /* BUTTONS */
+  .cta-btn { background: var(--accent); border: none; color: var(--bg); font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 3px; padding: 16px 36px; cursor: pointer; border-radius: 4px; transition: all 0.2s; font-weight: 700; }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
+  .cta-btn.purple { background: #7c3aed; }
+  .cta-btn.purple:hover { box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+  .restart-btn { background: transparent; border: 1px solid var(--muted); color: var(--muted); font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 3px; padding: 12px 24px; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
   .restart-btn:hover { border-color: var(--text); color: var(--text); }
 
-  /* ── CTA button ── */
-  .cta-btn {
-    background: var(--accent);
-    border: none;
-    color: var(--bg);
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    letter-spacing: 3px;
-    padding: 16px 36px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-    font-weight: 700;
-  }
-
-  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
-
-  /* ── HEADER ── */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 28px;
-  }
-
-  .logo {
-    font-family: 'Orbitron', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--accent);
-  }
-
-  .lives-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Orbitron', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
-
-  /* ── DECORATIVE LINES ── */
-  .deco-line {
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    margin: 24px 0;
-    opacity: 0.4;
-  }
-
-  /* ── HINT ── */
-  .hint-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 10px;
-  }
-
-  .glitch {
-    animation: glitch 3s ease-in-out infinite;
-  }
-
-  @keyframes glitch {
-    0%, 90%, 100% { text-shadow: none; transform: none; }
-    91% { text-shadow: 2px 0 var(--accent2), -2px 0 var(--accent); transform: skewX(1deg); }
-    92% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: skewX(-1deg); }
-    93% { text-shadow: none; transform: none; }
-  }
-
-  @media (max-width: 540px) {
-    .options { grid-template-columns: 1fr; }
-    .win-stats { grid-template-columns: 1fr 1fr; }
-    .q-text { font-size: 18px; }
-  }
+  /* WIN */
+  .win-title { font-family: 'Orbitron', monospace; font-size: clamp(22px, 5vw, 40px); font-weight: 900; background: linear-gradient(135deg, var(--accent3), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
+  .win-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 20px; text-align: center; }
+  .stat-val { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .stat-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  .certificate { background: var(--panel); border: 1px solid var(--border); border-top: 3px solid var(--accent3); border-radius: 6px; padding: 24px 28px; text-align: center; margin-bottom: 24px; }
+  .cert-badge { font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 3px; color: var(--accent3); margin-bottom: 8px; }
+  .deco-line { height: 1px; background: linear-gradient(90deg, var(--accent), transparent); margin: 12px 0; opacity: 0.4; }
+  .cert-text { font-size: 16px; color: #94a3b8; line-height: 1.6; }
+  .cert-text strong { color: var(--text); }
+  .glitch { animation: glitch 3s ease-in-out infinite; }
+  @keyframes glitch { 0%, 90%, 100% { text-shadow: none; transform: none; } 91% { text-shadow: 2px 0 var(--accent2), -2px 0 var(--accent); transform: skewX(1deg); } 92% { text-shadow: -2px 0 var(--accent2), 2px 0 var(--accent); transform: skewX(-1deg); } 93% { text-shadow: none; transform: none; } }
+  @media (max-width: 540px) { .options { grid-template-columns: 1fr; } .win-stats { grid-template-columns: 1fr 1fr; } .q-text { font-size: 18px; } }
 </style>
 </head>
 <body>
-
 <div class="wrapper">
 
-  <!-- ══════════════════ INTRO SCREEN ══════════════════ -->
+  <!-- ══ INTRO ══ -->
   <div class="screen active" id="screen-intro">
     <div class="intro-badge">MISSION BRIEFING</div>
     <h1 class="intro-title glitch">AUTO<br>ESCAPE</h1>
     <p class="intro-sub">Autonomous Vehicle Intelligence Challenge</p>
-
     <div class="intro-story">
-      <strong>Year 2035.</strong> The world's most advanced autonomous vehicle has been
-      locked down by an unknown cyber attack. The AI control system is offline.
-      To restore it, you must prove your knowledge of autonomous driving technology.
+      <strong>Year 2035.</strong> The world's most advanced autonomous vehicle has been locked down by an unknown cyber attack. The AI control system is split into <strong>two security modules</strong>, each protected by 5 questions.
       <br><br>
-      Answer <strong>5 security questions</strong> correctly to reboot the system
-      and unlock the vehicle. Each wrong answer drains a battery cell.
-      You have <strong>3 lives</strong>. Good luck, agent.
+      Crack all <strong>10 questions</strong> across both modules to fully restore the system. Each wrong answer drains a battery cell. You have <strong>3 lives</strong>. Good luck, agent.
     </div>
-
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
       <button class="cta-btn" onclick="startGame()">INITIATE SEQUENCE ›</button>
+      <span style="font-size:13px; color:var(--muted); letter-spacing:1px;">10 QUESTIONS · 2 MODULES · ENGLISH</span>
     </div>
-
-    <div class="deco-line"></div>
-    <p style="font-size:13px; color:var(--muted); letter-spacing:1px;">5 QUESTIONS · ENGLISH · AUTONOMOUS VEHICLES</p>
   </div>
 
-  <!-- ══════════════════ QUESTION SCREEN ══════════════════ -->
+  <!-- ══ QUESTION SCREEN ══ -->
   <div class="screen" id="screen-question">
     <div class="header">
       <div class="logo">AUTO<span style="color:var(--muted);">ESCAPE</span></div>
-      <div class="lives-row">
-        POWER CELLS &nbsp;
-        <span id="lives-display"></span>
-      </div>
+      <div class="lives-row">POWER CELLS &nbsp;<span id="lives-display"></span></div>
     </div>
-
+    <div class="phase-banner phase-1" id="phase-banner">
+      <div class="phase-dot"></div>
+      <span class="phase-label" id="phase-label">MODULE 1 — CORE SYSTEMS</span>
+      <span style="color:var(--muted); margin-left:auto; font-size:10px;" id="phase-progress">1 / 5</span>
+    </div>
     <div class="progress-wrap">
       <div class="progress-labels">
-        <span id="q-counter">QUESTION 1 / 5</span>
+        <span id="q-counter">QUESTION 1 / 10</span>
         <span id="q-pct">0%</span>
       </div>
       <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        <div class="progress-fill p1" id="progress-fill" style="width:0%"></div>
       </div>
       <div class="step-dots" id="step-dots"></div>
     </div>
-
-    <div class="q-card" id="q-card">
-      <div class="q-number" id="q-number">SECURITY CHECK 01</div>
+    <div class="q-card p1" id="q-card">
+      <div class="q-number p1" id="q-number">SECURITY CHECK 01</div>
       <div class="q-icon" id="q-icon"></div>
       <div class="q-text" id="q-text"></div>
       <div class="options" id="options-grid"></div>
       <div class="feedback" id="feedback"></div>
     </div>
-
     <button class="next-btn" id="next-btn" onclick="nextQuestion()">
-      <span id="next-label">UNLOCK NEXT MODULE</span>
-      <span>›</span>
+      <span id="next-label">UNLOCK NEXT MODULE</span><span>›</span>
     </button>
   </div>
 
-  <!-- ══════════════════ WIN SCREEN ══════════════════ -->
-  <div class="screen" id="screen-win">
-    <div style="text-align:center; margin-bottom:32px;">
-      <div style="font-size:64px; margin-bottom:16px;">🚗</div>
-      <h2 class="win-title">SYSTEM RESTORED</h2>
-      <p class="win-sub">Autonomous vehicle successfully unlocked.</p>
-    </div>
-
-    <div class="win-stats">
-      <div class="stat-card">
-        <div class="stat-val">5</div>
-        <div class="stat-label">Questions</div>
+  <!-- ══ PHASE TRANSITION ══ -->
+  <div class="screen" id="screen-phase2">
+    <div class="phase-transition">
+      <div class="phase-transition-icon">🔓</div>
+      <div class="phase-transition-title">MODULE 1 — UNLOCKED</div>
+      <div class="phase-transition-sub">
+        First security layer breached. The vehicle's navigation core is partially restored.<br><br>
+        <strong style="color:#a78bfa;">5 more questions</strong> stand between you and full system access.<br>
+        Brace yourself — Module 2 goes deeper.
       </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-lives">3</div>
-        <div class="stat-label">Lives left</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val" id="stat-score">100%</div>
-        <div class="stat-label">Score</div>
-      </div>
-    </div>
-
-    <div class="certificate">
-      <div class="cert-badge">✦ MISSION COMPLETE ✦</div>
-      <div class="deco-line" style="margin:12px 0;"></div>
-      <div class="cert-text">
-        Congratulations! You have proven your knowledge of<br>
-        <strong>Autonomous Vehicle Technology</strong>.<br>
-        The AI control system is back online.
-      </div>
-    </div>
-
-    <div style="text-align:center;">
-      <button class="restart-btn" onclick="restartGame()">↺ &nbsp; RESTART MISSION</button>
+      <button class="cta-btn purple" onclick="startPhase2()">ENTER MODULE 2 ›</button>
     </div>
   </div>
 
-  <!-- ══════════════════ GAME OVER SCREEN ══════════════════ -->
+  <!-- ══ WIN ══ -->
+  <div class="screen" id="screen-win">
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:60px; margin-bottom:12px;">🚗</div>
+      <h2 class="win-title">SYSTEM FULLY RESTORED</h2>
+      <p style="font-size:16px; color:var(--muted);">Both security modules unlocked. Vehicle is fully online.</p>
+    </div>
+    <div class="win-stats">
+      <div class="stat-card"><div class="stat-val">10</div><div class="stat-label">Questions</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-lives">3</div><div class="stat-label">Lives left</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-score">100%</div><div class="stat-label">Score</div></div>
+    </div>
+    <div class="certificate">
+      <div class="cert-badge">✦ MISSION COMPLETE — BOTH MODULES ✦</div>
+      <div class="deco-line"></div>
+      <div class="cert-text">Outstanding work. You have proven expert knowledge of<br><strong>Autonomous Vehicle Technology</strong>.<br>The AI control system is fully operational.</div>
+    </div>
+    <div style="text-align:center;"><button class="restart-btn" onclick="restartGame()">↺ &nbsp; RESTART MISSION</button></div>
+  </div>
+
+  <!-- ══ GAME OVER ══ -->
   <div class="screen" id="screen-gameover">
-    <div style="text-align:center; margin-bottom:32px;">
-      <div style="font-size:64px; margin-bottom:16px;">🔋</div>
-      <h2 style="font-family:'Orbitron',monospace; font-size:36px; color:var(--danger); margin-bottom:12px;">POWER FAILURE</h2>
-      <p style="font-size:18px; color:var(--muted);">All battery cells are depleted. The vehicle is locked.</p>
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:60px; margin-bottom:12px;">🔋</div>
+      <h2 style="font-family:'Orbitron',monospace; font-size:32px; color:var(--danger); margin-bottom:10px;">POWER FAILURE</h2>
+      <p style="font-size:16px; color:var(--muted);">All battery cells depleted. The vehicle remains locked.</p>
     </div>
-
-    <div style="background:var(--panel); border:1px solid rgba(239,68,68,0.3); border-radius:6px; padding:24px; text-align:center; margin-bottom:28px;">
-      <p style="font-size:16px; color:#94a3b8; line-height:1.6;">
-        Don't worry — autonomous cars are built to handle failures.<br>
-        Study up and try again, agent.
-      </p>
+    <div style="background:var(--panel); border:1px solid rgba(239,68,68,0.3); border-radius:6px; padding:24px; text-align:center; margin-bottom:24px;">
+      <p style="font-size:16px; color:#94a3b8; line-height:1.6;">Autonomous cars are built to handle failures gracefully.<br>Study up and try again, agent.</p>
     </div>
-
-    <div style="text-align:center;">
-      <button class="cta-btn" onclick="restartGame()">RETRY MISSION</button>
-    </div>
+    <div style="text-align:center;"><button class="cta-btn" onclick="restartGame()">RETRY MISSION</button></div>
   </div>
 
 </div>
-
 <script>
 const QUESTIONS = [
+  // MODULE 1
   {
-    icon: "🤖",
-    text: "What is another common name for an autonomous car?",
-    options: ["Flying car", "Self-driving car", "Electric car", "Racing car"],
-    correct: 1,
-    feedback: "✓ Correct! 'Self-driving car' is the most common synonym for 'autonomous car'. The word autonomous means the vehicle can operate independently, without human control.",
-    wrongFeedback: "✗ Not quite. An autonomous car is also called a 'self-driving car' — it can navigate and drive without a human behind the wheel."
+    phase:1, icon:"🤖",
+    text:"What is another common name for an autonomous car?",
+    options:["Flying car","Self-driving car","Electric car","Racing car"],
+    correct:1,
+    feedback:"✓ Correct! 'Self-driving car' is the most common synonym. The word autonomous means the vehicle can operate independently, without human control.",
+    wrongFeedback:"✗ Not quite. An autonomous car is also called a 'self-driving car' — it can navigate and drive without a human behind the wheel."
   },
   {
-    icon: "📡",
-    text: "Which sensor technology uses laser beams to create a 3D map of the surroundings?",
-    options: ["GPS", "Radar", "LiDAR", "Bluetooth"],
-    correct: 2,
-    feedback: "✓ Excellent! LiDAR (Light Detection And Ranging) sends out laser pulses and measures how long they take to bounce back, creating a precise 3D map of the environment.",
-    wrongFeedback: "✗ Not quite. The answer is LiDAR. It uses laser pulses to build a detailed 3D picture of everything around the car — including obstacles, roads, and pedestrians."
+    phase:1, icon:"📡",
+    text:"Which sensor technology uses laser beams to create a 3D map of the surroundings?",
+    options:["GPS","Radar","LiDAR","Bluetooth"],
+    correct:2,
+    feedback:"✓ Excellent! LiDAR (Light Detection And Ranging) sends out laser pulses and measures how long they take to bounce back, creating a precise 3D map of everything around the car.",
+    wrongFeedback:"✗ The answer is LiDAR. It uses laser pulses to build a detailed 3D picture of everything around the car — including obstacles, roads, and pedestrians."
   },
   {
-    icon: "🏎️",
-    text: "How many levels of driving automation are officially defined by the SAE (Society of Automotive Engineers)?",
-    options: ["3 levels (1–3)", "5 levels (1–5)", "6 levels (0–5)", "10 levels (0–9)"],
-    correct: 2,
-    feedback: "✓ Perfect! There are 6 official SAE automation levels: Level 0 (no automation) to Level 5 (full automation). Most cars today are at Levels 1 or 2.",
-    wrongFeedback: "✗ The correct answer is 6 levels (0 to 5). Level 0 means no automation, while Level 5 means the car is fully autonomous with no human needed at all."
+    phase:1, icon:"🏎️",
+    text:"How many levels of driving automation are officially defined by the SAE?",
+    options:["3 levels (1–3)","5 levels (1–5)","6 levels (0–5)","10 levels (0–9)"],
+    correct:2,
+    feedback:"✓ Perfect! There are 6 official SAE automation levels: Level 0 (no automation) to Level 5 (full automation). Most cars today are at Levels 1 or 2.",
+    wrongFeedback:"✗ The correct answer is 6 levels (0 to 5). Level 0 means no automation, while Level 5 means the car is fully autonomous with no human needed at all."
   },
   {
-    icon: "🌐",
-    text: "At which SAE level does a car drive entirely by itself with NO human input required?",
-    options: ["Level 2", "Level 3", "Level 4", "Level 5"],
-    correct: 3,
-    feedback: "✓ Brilliant! Level 5 is full automation. The car can handle any road, weather, and situation on its own — no steering wheel or pedals are even needed.",
-    wrongFeedback: "✗ Close! Level 5 is full autonomy — the vehicle can drive anywhere, in any condition, with zero human involvement. Level 4 is also highly autonomous but limited to certain areas."
+    phase:1, icon:"🌐",
+    text:"At which SAE level does a car drive entirely by itself with NO human input required?",
+    options:["Level 2","Level 3","Level 4","Level 5"],
+    correct:3,
+    feedback:"✓ Brilliant! Level 5 is full automation. The car can handle any road, weather, and situation on its own — no steering wheel or pedals are even needed.",
+    wrongFeedback:"✗ Level 5 is full autonomy — the vehicle can drive anywhere, in any condition, with zero human involvement. Level 4 is also highly autonomous but limited to certain areas."
   },
   {
-    icon: "🏢",
-    text: "Which technology company launched one of the world's first autonomous car projects, later known as 'Waymo'?",
-    options: ["Apple", "Amazon", "Google", "Microsoft"],
-    correct: 2,
-    feedback: "✓ Outstanding! Google started its self-driving car project in 2009. It later became Waymo, which is now one of the leading companies in autonomous vehicle technology.",
-    wrongFeedback: "✗ It was Google. Google launched its self-driving project in 2009 under its research lab, and it eventually became Waymo — a major player in autonomous vehicles today."
+    phase:1, icon:"🏢",
+    text:"Which technology company launched one of the world's first AV projects, later known as 'Waymo'?",
+    options:["Apple","Amazon","Google","Microsoft"],
+    correct:2,
+    feedback:"✓ Outstanding! Google started its self-driving car project in 2009. It later became Waymo, which is now one of the leading companies in autonomous vehicle technology.",
+    wrongFeedback:"✗ It was Google. Google launched its self-driving project in 2009 under its research lab, and it eventually became Waymo — a major player in autonomous vehicles today."
+  },
+  // MODULE 2
+  {
+    phase:2, icon:"📊",
+    text:"What percentage of road accidents worldwide are caused by human error?",
+    options:["About 50%","About 70%","About 94%","About 99%"],
+    correct:2,
+    feedback:"✓ Correct! Around 94% of road accidents are caused by human error — distraction, fatigue, and bad decisions. This is one of the key arguments for developing autonomous vehicles.",
+    wrongFeedback:"✗ The answer is about 94%. The vast majority of accidents are due to human error, which is why AVs are seen as a major road safety opportunity."
+  },
+  {
+    phase:2, icon:"🔄",
+    text:"In the autonomous driving core loop, what comes right after 'Sense'?",
+    options:["Act","Plan","Perceive","Brake"],
+    correct:2,
+    feedback:"✓ Exactly right! The core loop is: Sense → Perceive → Plan → Act. After collecting raw sensor data, AI models interpret and understand the environment before making decisions.",
+    wrongFeedback:"✗ The correct order is Sense → Perceive → Plan → Act. 'Perceive' is where AI models make sense of the raw sensor data collected by all the sensors."
+  },
+  {
+    phase:2, icon:"🌧️",
+    text:"Which sensor works in ALL weather conditions and is best at detecting the speed of other vehicles?",
+    options:["LiDAR","Camera","RADAR","GPS"],
+    correct:2,
+    feedback:"✓ Great! RADAR works reliably in rain, fog, and darkness. It is particularly good at measuring the speed and distance of objects, even if its visual resolution is low.",
+    wrongFeedback:"✗ The answer is RADAR. Unlike cameras or LiDAR, radar works in all weather conditions and is excellent at detecting the speed of nearby objects."
+  },
+  {
+    phase:2, icon:"🚕",
+    text:"Which company currently operates commercial robotaxis in San Francisco and Phoenix?",
+    options:["Tesla","Waymo","Cruise","Uber"],
+    correct:1,
+    feedback:"✓ Spot on! Waymo operates fully driverless commercial robotaxis in both San Francisco and Phoenix — no safety driver required. That is Level 4 automation in practice.",
+    wrongFeedback:"✗ The answer is Waymo. Waymo (born from Google) runs paid robotaxi services in San Francisco and Phoenix, operating at Level 4 automation."
+  },
+  {
+    phase:2, icon:"⚖️",
+    text:"Which of these is an open NON-TECHNICAL challenge for autonomous vehicles?",
+    options:["Detecting pedestrians","Processing sensor data","Legal liability in accidents","Reading road signs"],
+    correct:2,
+    feedback:"✓ Excellent thinking! Legal liability is one of the biggest unresolved challenges — if an autonomous car causes an accident, who is responsible: the manufacturer, the software company, or the passenger?",
+    wrongFeedback:"✗ The answer is legal liability. Detecting pedestrians and reading signs are technical problems, but deciding who is legally responsible in an accident is a societal and legal challenge."
   }
 ];
 
-let current = 0;
-let lives = 3;
-let wrongThisQ = false;
-let totalWrong = 0;
-const LETTERS = ['A','B','C','D'];
+const TOTAL = 10, PHASE_SIZE = 5, LETTERS = ['A','B','C','D'];
+let current = 0, lives = 3, wrongThisQ = false;
 
-function startGame() {
-  current = 0;
-  lives = 3;
-  wrongThisQ = false;
-  totalWrong = 0;
-  showScreen('screen-question');
-  renderQuestion();
-}
-
+function startGame()   { current = 0; lives = 3; wrongThisQ = false; showScreen('screen-question'); renderQuestion(); }
+function startPhase2() { showScreen('screen-question'); renderQuestion(); }
 function restartGame() { startGame(); }
 
 function showScreen(id) {
@@ -789,38 +374,53 @@ function showScreen(id) {
 
 function renderQuestion() {
   const q = QUESTIONS[current];
+  const phase = current < PHASE_SIZE ? 1 : 2;
   wrongThisQ = false;
 
-  document.getElementById('q-number').textContent = `SECURITY CHECK 0${current+1}`;
+  // Phase banner
+  const banner = document.getElementById('phase-banner');
+  banner.className = 'phase-banner phase-' + phase;
+  document.getElementById('phase-label').textContent = phase === 1 ? 'MODULE 1 — CORE SYSTEMS' : 'MODULE 2 — DEEP SECURITY';
+  document.getElementById('phase-progress').textContent = phase === 1 ? `${current + 1} / 5` : `${current - PHASE_SIZE + 1} / 5`;
+
+  // Card
+  document.getElementById('q-card').className = 'q-card ' + (phase === 1 ? 'p1' : 'p2');
+  const qnum = document.getElementById('q-number');
+  qnum.className = 'q-number ' + (phase === 1 ? 'p1' : 'p2');
+  qnum.textContent = `SECURITY CHECK ${String(current + 1).padStart(2, '0')}`;
+
   document.getElementById('q-icon').textContent = q.icon;
   document.getElementById('q-text').textContent = q.text;
-  document.getElementById('q-counter').textContent = `QUESTION ${current+1} / 5`;
+  document.getElementById('q-counter').textContent = `QUESTION ${current + 1} / ${TOTAL}`;
 
-  const pct = Math.round((current / 5) * 100);
+  const pct = Math.round((current / TOTAL) * 100);
   document.getElementById('q-pct').textContent = pct + '%';
-  document.getElementById('progress-fill').style.width = pct + '%';
+  const fill = document.getElementById('progress-fill');
+  fill.style.width = pct + '%';
+  fill.className = 'progress-fill ' + (phase === 1 ? 'p1' : 'p2');
 
-  // dots
+  // Dots
   const dots = document.getElementById('step-dots');
   dots.innerHTML = '';
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < TOTAL; i++) {
+    if (i === PHASE_SIZE) { const sep = document.createElement('div'); sep.className = 'dot sep'; dots.appendChild(sep); }
     const d = document.createElement('div');
-    d.className = 'dot' + (i < current ? ' done' : i === current ? ' current' : '');
+    const p2 = i >= PHASE_SIZE;
+    d.className = 'dot' + (i < current ? (p2 ? ' done-p2' : ' done') : i === current ? (p2 ? ' current-p2' : ' current') : '');
     dots.appendChild(d);
   }
 
-  // lives
+  // Lives
   const ld = document.getElementById('lives-display');
   ld.innerHTML = '';
   for (let i = 0; i < 3; i++) {
     const pip = document.createElement('span');
     pip.className = 'attempt-pip' + (i >= lives ? ' lost' : '');
-    pip.style.display = 'inline-block';
     ld.appendChild(pip);
     if (i < 2) { const sp = document.createElement('span'); sp.innerHTML = '&nbsp;'; ld.appendChild(sp); }
   }
 
-  // options
+  // Options
   const grid = document.getElementById('options-grid');
   grid.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -831,72 +431,53 @@ function renderQuestion() {
     grid.appendChild(btn);
   });
 
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback';
-  fb.textContent = '';
-
-  const nextBtn = document.getElementById('next-btn');
-  nextBtn.classList.remove('visible');
-  const nextLabel = document.getElementById('next-label');
-  nextLabel.textContent = current === 4 ? 'RESTORE VEHICLE SYSTEM' : 'UNLOCK NEXT MODULE';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').textContent = '';
+  const nb = document.getElementById('next-btn');
+  nb.classList.remove('visible');
+  document.getElementById('next-label').textContent =
+    current === PHASE_SIZE - 1 ? 'ACCESS MODULE 2' :
+    current === TOTAL - 1      ? 'RESTORE VEHICLE' : 'UNLOCK NEXT MODULE';
 }
 
 function handleAnswer(idx) {
   const q = QUESTIONS[current];
   const btns = document.querySelectorAll('.opt-btn');
   btns.forEach(b => b.disabled = true);
-
   const fb = document.getElementById('feedback');
 
   if (idx === q.correct) {
     btns[idx].classList.add('correct');
     fb.className = 'feedback correct-fb';
     fb.textContent = q.feedback;
-
-    const nextBtn = document.getElementById('next-btn');
-    nextBtn.classList.add('visible');
+    document.getElementById('next-btn').classList.add('visible');
   } else {
     btns[idx].classList.add('wrong');
-
     if (!wrongThisQ) {
-      wrongThisQ = true;
-      totalWrong++;
-      lives--;
-
-      // refresh lives display
-      const ld = document.getElementById('lives-display');
-      const pips = ld.querySelectorAll('.attempt-pip');
-      pips.forEach((p, i) => {
-        p.className = 'attempt-pip' + (i >= lives ? ' lost' : '');
-      });
+      wrongThisQ = true; lives--;
+      const pips = document.getElementById('lives-display').querySelectorAll('.attempt-pip');
+      pips.forEach((p, i) => { p.className = 'attempt-pip' + (i >= lives ? ' lost' : ''); });
     }
-
-    if (lives <= 0) {
-      setTimeout(() => showScreen('screen-gameover'), 800);
-      return;
-    }
-
+    if (lives <= 0) { setTimeout(() => showScreen('screen-gameover'), 900); return; }
     fb.className = 'feedback wrong-fb';
     fb.textContent = q.wrongFeedback;
-
     setTimeout(() => {
-      btns.forEach(b => { b.disabled = false; b.classList.remove('wrong', 'correct'); });
+      btns.forEach(b => { b.disabled = false; b.classList.remove('wrong','correct'); });
       fb.className = 'feedback';
-    }, 1800);
+    }, 1900);
   }
 }
 
 function nextQuestion() {
+  if (current === PHASE_SIZE - 1) { current++; showScreen('screen-phase2'); return; }
   current++;
-  if (current >= QUESTIONS.length) {
-    const correct = 5;
-    const score = Math.round(((lives / 3) * 50) + 50);
+  if (current >= TOTAL) {
     document.getElementById('stat-lives').textContent = lives;
-    document.getElementById('stat-score').textContent = score + '%';
+    document.getElementById('stat-score').textContent = Math.round(50 + (lives / 3) * 50) + '%';
     showScreen('screen-win');
   } else {
     showScreen('screen-question');
-    setTimeout(renderQuestion, 100);
+    setTimeout(renderQuestion, 80);
   }
 }
 </script>
